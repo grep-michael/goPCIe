@@ -21,7 +21,7 @@ func ProcessFile(path string, table *PCITable) error {
 		return err
 	}
 	defer idFileBytes.Close()
-	table.sources = append(table.sources, path)
+	table.Sources = append(table.Sources, path)
 
 	var lastVendor *Vendor
 	var lastDevice *Device

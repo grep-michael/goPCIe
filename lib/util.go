@@ -11,8 +11,8 @@ func setUpTable(table *PCITable) {
 	if table.Devices == nil {
 		table.Devices = make(map[string][]*Device)
 	}
-	if table.sources == nil {
-		table.sources = make([]string, 0)
+	if table.Sources == nil {
+		table.Sources = make([]string, 0)
 	}
 }
 

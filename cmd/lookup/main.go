@@ -14,7 +14,7 @@ func main() {
 	vendor := flag.String("vendor", "", "Vendor to look up")
 	device := flag.String("device", "", "device lookup")
 
-	sources := flag.String("sources", "/usr/share/misc/pci.ids,/usr/share/hwdata/pci.ids,/usr/share/misc/pci.ids", "comma separated list of source files")
+	sources := flag.String("sources", "/usr/share/misc/pci.ids,/usr/share/hwdata/pci.ids", "comma separated list of source files")
 	flag.Parse()
 
 	table := &lib.PCITable{}
@@ -58,7 +58,7 @@ func main() {
 			status += fmt.Sprintf("\tDevice: %s(ID:%s)\n", dev.Name, dev.ID)
 		}
 	}
-
+	status += fmt.Sprintf("Loaded from: %s", strings.Join(table.Sources, ","))
 	fmt.Println(status)
 }
 

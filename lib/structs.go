@@ -3,7 +3,7 @@ package lib
 import "log"
 
 type PCITable struct {
-	sources []string
+	Sources []string
 	Vendors map[string]*Vendor   //all vendors have different ids
 	Devices map[string][]*Device //devices can have the same id
 }
