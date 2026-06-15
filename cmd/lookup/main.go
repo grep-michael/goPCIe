@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grep-michael/goPCIe/lib"
+	"github.com/grep-michael/goPCIe/PCIeLookup"
 )
 
 func main() {
@@ -17,17 +17,17 @@ func main() {
 	sources := flag.String("sources", "/usr/share/misc/pci.ids,/usr/share/hwdata/pci.ids", "comma separated list of source files")
 	flag.Parse()
 
-	table := &lib.PCITable{}
+	table := &pcielookup.PCITable{}
 
 	for _, source := range strings.Split(*sources, ",") {
-		err := lib.ProcessFile(source, table)
+		err := pcielookup.ProcessFile(source, table)
 		if err != nil {
 			fmt.Printf("Failed to process source %s\n", source)
 		}
 	}
 
-	var ven *lib.Vendor
-	var dev *lib.Device
+	var ven *pcielookup.Vendor
+	var dev *pcielookup.Device
 
 	status := ""
 
@@ -62,7 +62,7 @@ func main() {
 	fmt.Println(status)
 }
 
-func findDevices(deviceId string, table *lib.PCITable) {
+func findDevices(deviceId string, table *pcielookup.PCITable) {
 	devices, found := table.FindDevice(deviceId)
 	if !found {
 		fmt.Printf("Failed to find any devices with id \"%s\"\n", deviceId)
