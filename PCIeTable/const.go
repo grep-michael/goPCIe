@@ -1,15 +1,17 @@
 package pcietable
 
-import "fmt"
+import (
+	"fmt"
+
+	sourcelist "github.com/grep-michael/goPCIe/SourceList"
+)
 
 var SysPCIeTabl = &PCITable{}
 
 func init() {
 	setUpTable(SysPCIeTabl)
 
-	commonSources := [2]string{"/usr/share/misc/pci.ids", "/usr/share/hwdata/pci.ids"}
-
-	for _, source := range commonSources {
+	for _, source := range sourcelist.CommonSources {
 		err := SysPCIeTabl.LoadSource(source)
 		if err != nil {
 			fmt.Printf("Failed to process source %s\n", source)
