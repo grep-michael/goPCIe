@@ -1,4 +1,4 @@
-package pcielookup
+package pcietable
 
 import (
 	"bufio"
@@ -10,7 +10,7 @@ import (
 
 // iterate pci.ids file
 
-func ProcessFile(path string, table *PCITable) error {
+func (table *PCITable) LoadSource(path string) error {
 	setUpTable(table)
 
 	idFileBytes, err := os.Open(path)

@@ -1,4 +1,4 @@
-package pcielookup
+package pcietable
 
 import (
 	"strings"

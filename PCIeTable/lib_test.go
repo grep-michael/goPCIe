@@ -1,4 +1,4 @@
-package pcielookup
+package pcietable
 
 import (
 	"encoding/json"
@@ -21,7 +21,7 @@ func TestLineToSubDev(t *testing.T) {
 
 func TestFile(t *testing.T) {
 	table := &PCITable{}
-	ProcessFile("/usr/share/misc/pci.ids", table)
+	table.LoadSource("/usr/share/misc/pci.ids")
 	js, err := json.MarshalIndent(table, "", "   ")
 	if err != nil {
 		t.Fatal(err)
