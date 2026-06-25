@@ -13,30 +13,29 @@ import (
 func (table *PCITable) LoadSource(path string) error {
 	setUpTable(table)
 
-	idFileBytes, err := os.Open(path)
+	sourceFile, err := os.Open(path)
 	if errors.Is(err, os.ErrNotExist) {
 		return nil
 	}
 	if err != nil {
 		return err
 	}
-	defer idFileBytes.Close()
+	defer sourceFile.Close()
 	table.Sources = append(table.Sources, path)
 
 	var lastVendor *Vendor
 	var lastDevice *Device
 
-	scanner := bufio.NewScanner(idFileBytes)
+	scanner := bufio.NewScanner(sourceFile)
 	for scanner.Scan() {
 		line := scanner.Text()
-
-		if strings.HasPrefix(line, "C") {
-			break
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
 		}
 
 		switch {
-		case line == "" || strings.HasPrefix(line, "#"):
-			continue
+		case strings.HasPrefix(line, "C"):
+
 		case !strings.HasPrefix(line, "\t"): //vendor
 			vendor := lineToVendor(line)
 			table.RegisterVendor(vendor)
@@ -56,7 +55,6 @@ func (table *PCITable) LoadSource(path string) error {
 
 		default:
 			log.Println(line)
-
 		}
 
 	}
