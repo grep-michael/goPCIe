@@ -2,7 +2,6 @@ package pcietable
 
 import (
 	"fmt"
-	"log"
 )
 
 type Vendor struct {
@@ -16,16 +15,6 @@ func (vendor *Vendor) FindDevice(id string) (*Device, bool) {
 	return dev, ok
 }
 
-func (vendor *Vendor) addDevice(dev *Device, table *PCITable) {
-	if _, ok := vendor.Devices[dev.ID]; !ok {
-		vendor.Devices[dev.ID] = dev
-		dev.Vendor = vendor
-		dev.VendorID = vendor.ID
-	} else {
-		log.Printf("Attempted to add duplicate device(%s) to vendor(%s)\n", dev.Name, vendor.Name)
-	}
-	table.RegisterDevice(dev)
-}
 func (vendor *Vendor) AddChild(obj any) error {
 	dev, ok := obj.(*Device)
 	if !ok {

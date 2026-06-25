@@ -8,9 +8,6 @@ func setUpTable(table *PCITable) {
 	if table.Vendors == nil {
 		table.Vendors = make(map[string]*Vendor)
 	}
-	if table.Devices == nil {
-		table.Devices = make(map[string][]*Device)
-	}
 	if table.Sources == nil {
 		table.Sources = make([]string, 0)
 	}
