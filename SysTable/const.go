@@ -1,16 +1,15 @@
-package pcietable
+package systable
 
 import (
 	"fmt"
 
+	pcietable "github.com/grep-michael/goPCIe/PCIeTable"
 	sourcelist "github.com/grep-michael/goPCIe/SourceList"
 )
 
-var SysPCIeTabl = &PCITable{}
+var SysPCIeTabl = &pcietable.PCITable{}
 
 func init() {
-	setUpTable(SysPCIeTabl)
-
 	for _, source := range sourcelist.CommonSources {
 		err := SysPCIeTabl.LoadSource(source)
 		if err != nil {
