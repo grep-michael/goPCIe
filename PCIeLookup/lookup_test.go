@@ -29,3 +29,14 @@ func TestLookup(t *testing.T) {
 	js, _ := json.MarshalIndent(result, "", "    ")
 	fmt.Println(string(js))
 }
+
+func TestLookupClass(t *testing.T) {
+	class := "0x0c0340"
+
+	result, err := PCIeClassLookupFromSource(class, "/usr/share/misc/pci.ids")
+	if err != nil {
+		t.Error(err)
+	}
+	js, _ := json.MarshalIndent(result, "", "    ")
+	fmt.Println(string(js))
+}

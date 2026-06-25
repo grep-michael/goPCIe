@@ -3,6 +3,7 @@ package pcielookup
 type LookupResult struct {
 	Vendor PCIeEntitiy
 	Device PCIeEntitiy
+	Class  string
 	Source string
 }
 

@@ -31,14 +31,15 @@ func PCIeLookupFromSource(vendor, device, sourcePath string) (LookupResult, erro
 		return result, err
 	}
 
-	sourceBytes, err := os.Open(sourcePath)
+	sourceFile, err := os.Open(sourcePath)
 	if err != nil {
 		return result, err
 	}
+	defer sourceFile.Close()
 
 	foundVendor := false
 
-	scanner := bufio.NewScanner(sourceBytes)
+	scanner := bufio.NewScanner(sourceFile)
 	for scanner.Scan() {
 		line := scanner.Text()
 		if strings.HasPrefix(line, "C") {
