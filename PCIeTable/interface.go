@@ -1,5 +1,8 @@
 package pcietable
 
 type Parent interface {
-	AddChild(any) error
+	AddChild(line string) Child
+}
+type Child interface {
+	Parent
 }

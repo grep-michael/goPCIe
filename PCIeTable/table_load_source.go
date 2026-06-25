@@ -26,8 +26,8 @@ func (table *PCITable) LoadSource(path string) error {
 	//var lastVendor *Vendor
 	//var lastDevice *Device
 
-	var lastVendor Parent
-	var lastDevice Parent
+	var parent Parent
+	var lastChild Parent
 
 	scanner := bufio.NewScanner(sourceFile)
 	for scanner.Scan() {
@@ -36,25 +36,25 @@ func (table *PCITable) LoadSource(path string) error {
 			continue
 		}
 
-		if strings.HasPrefix(line, "C") {
-			break
-		}
-
 		switch {
+		case strings.HasPrefix(line, "C"): //class parent
+			class := lineToClass(line)
+			table.RegisterClass(class)
+			parent = class
+			lastChild = nil
 
-		case !strings.HasPrefix(line, "\t"): //vendor
+		case !strings.HasPrefix(line, "\t"): //vendor parent
 			vendor := lineToVendor(line)
 			table.RegisterVendor(vendor)
-			lastVendor = vendor
-			lastDevice = nil
+			parent = vendor
+			lastChild = nil
 
-		case strings.HasPrefix(line, "\t\t"): //subdevice
-			subDev := lineToSubDevice(line)
-			lastDevice.AddChild(subDev)
-		case strings.HasPrefix(line, "\t"): //device
-			device := lineToDevice(line)
-			lastVendor.AddChild(device)
-			lastDevice = device
+		case strings.HasPrefix(line, "\t\t"): //sub child
+			lastChild.AddChild(line)
+
+		case strings.HasPrefix(line, "\t"): //child
+			device := parent.AddChild(line)
+			lastChild = device
 
 		default:
 			log.Println(line)

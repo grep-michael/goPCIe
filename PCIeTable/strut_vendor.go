@@ -1,13 +1,9 @@
 package pcietable
 
-import (
-	"fmt"
-)
-
 type Vendor struct {
-	ID      string
-	Name    string
-	Devices map[string]*Device //devices within an vendor all have different ids, so i thought
+	VendorID string
+	Name     string
+	Devices  map[string]*Device //devices within an vendor all have different ids, so i thought
 }
 
 func (vendor *Vendor) FindDevice(id string) (*Device, bool) {
@@ -15,15 +11,12 @@ func (vendor *Vendor) FindDevice(id string) (*Device, bool) {
 	return dev, ok
 }
 
-func (vendor *Vendor) AddChild(obj any) error {
-	dev, ok := obj.(*Device)
-	if !ok {
-		return fmt.Errorf("Vendor Addchild: %T is not *Device type", obj)
-	}
-	if _, ok := vendor.Devices[dev.ID]; !ok {
-		vendor.Devices[dev.ID] = dev
+func (vendor *Vendor) AddChild(line string) Child {
+	dev := lineToDevice(line)
+	if _, ok := vendor.Devices[dev.DeviceID]; !ok {
+		vendor.Devices[dev.DeviceID] = dev
 		dev.Vendor = vendor
-		dev.VendorID = vendor.ID
+		dev.VendorID = vendor.VendorID
 	}
-	return nil
+	return dev
 }
