@@ -1,5 +1,7 @@
 package pcietable
 
+import "strings"
+
 type Vendor struct {
 	VendorID string
 	Name     string
@@ -7,6 +9,7 @@ type Vendor struct {
 }
 
 func (vendor *Vendor) FindDevice(id string) (*Device, bool) {
+	id = strings.TrimPrefix(id, "0x")
 	dev, ok := vendor.Devices[id]
 	return dev, ok
 }

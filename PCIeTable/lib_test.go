@@ -22,7 +22,10 @@ func TestLineToSubDev(t *testing.T) {
 func TestFile(t *testing.T) {
 	table := &PCITable{}
 	table.LoadSource("/usr/share/misc/pci.ids")
-	js, err := json.MarshalIndent(table.Classes["01"], "", "   ")
+	class, ok := table.FindClass("0c0010")
+	fmt.Println(ok)
+
+	js, err := json.MarshalIndent(class, "", "   ")
 	if err != nil {
 		t.Fatal(err)
 	}
